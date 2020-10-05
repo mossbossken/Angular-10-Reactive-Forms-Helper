@@ -1,0 +1,66 @@
+
+
+<div class="container-header">
+  <!-- <mat-form-field class="full-width-input" color="primary"  style="margin-left:20px;">
+    <input matInput placeholder="Name of This Form Set" formControlName="nameOfThisFormSet"  class="font-open-sans">
+  </mat-form-field> -->
+
+  <button mat-button (click)="openFormFieldDefinitionDialogClick()">
+    <mat-icon >add</mat-icon>
+    Add Form Field Definition
+  </button>
+
+  <button mat-button (click)="publishFormSetDefinition()">
+    <mat-icon>refresh</mat-icon>
+    Generate Code
+  </button>
+
+</div>
+
+<mat-grid-list cols="3" rowHeight="2:.9" gutterSize="20px" style="margin-left: auto;margin-right: auto;width:95%;">
+
+  <form [formGroup]="formDefinitions" (ngSubmit)="generateFormDefinitions()" >
+
+    <mat-error *ngIf="formDefinitionsInvalid">
+      The definition form is incomplete.
+    </mat-error>
+
+
+  <div formArrayName="definitions" *ngFor ="let definition of formDefinitions.get('definitions')['controls']; let i = index">
+
+
+    <mat-grid-tile class=" mat-elevation-z8">
+      <mat-card class="definition-item-card">
+        <mat-card-title style="margin-top:5px;">
+          lastName
+        </mat-card-title>
+        <mat-card-subtitle>
+          input :: text
+        </mat-card-subtitle>
+        <mat-card-content>
+          this is the html of the field def
+        </mat-card-content>
+        <mat-card-actions style="text-align:right">
+          <button mat-button (click)="deleteFormDefinition(i)">
+            <mat-icon  color="primary">delete</mat-icon>
+          </button>
+          <button mat-button (click)="publishFormSetDefinition()">
+            <mat-icon  color="primary">edit</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+
+  </div>
+
+</form>
+
+
+</mat-grid-list>
+
+
+
+
+
+
+

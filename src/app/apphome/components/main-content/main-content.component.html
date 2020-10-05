@@ -1,5 +1,39 @@
-<mat-card>
-  <h1>New Form</h1>
-  <mat-card-content>
-  </mat-card-content>
-</mat-card>
+<mat-tab-group>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <label
+        matTooltip="Define reactive form field definitions"
+        matTooltipPosition ="above"
+        matTooltipClass="tool-tip">
+        Define
+      </label>
+    </ng-template>
+      <app-define></app-define>
+  </mat-tab>
+
+  <mat-tab>
+  <ng-template mat-tab-label>
+    <label
+      matTooltip="Generated HTML template code"
+      matTooltipPosition ="above"
+      matTooltipClass="tool-tip">
+      HTML
+    </label>
+  </ng-template>
+    <app-html></app-html>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <label
+        matTooltip="Generated Typescript template code"
+        matTooltipPosition ="above"
+        matTooltipClass="tool-tip">
+        Typescript
+      </label>
+    </ng-template>
+     <app-typescript></app-typescript>
+  </mat-tab>
+
+</mat-tab-group>

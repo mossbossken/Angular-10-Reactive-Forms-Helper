@@ -6,15 +6,59 @@
      www.kenmoss.me
     </mat-toolbar>
 
-<mat-nav-list>
-  <mat-list-item>
-     <a matLine>link</a>
-     <button mat-icon-button (click)="createNewform()">
-        <mat-icon>info</mat-icon>
-     </button>
-  </mat-list-item>
-</mat-nav-list>
-  </mat-sidenav>
+  <mat-nav-list>
+
+    <mat-list-item color="primary"
+      matTooltip="Frequently implemented Reactive Form Field Definitions"
+      matTooltipPosition ="right"
+      matTooltipClass="tool-tip">
+      <button mat-icon-button>
+        <mat-icon color="primary">
+          library_books
+        </mat-icon>
+        Form Field Templates
+      </button>
+    </mat-list-item>
+
+    <!-- <mat-list-item color="primary"
+      matTooltip="Clears any current definitions and begins a new reactive form definition"
+      matTooltipPosition ="right"
+      matTooltipClass="tool-tip">
+      <button mat-icon-button (click)="onFormDefinitionsResetClick()">
+        <mat-icon color="primary">
+          fiber_new
+        </mat-icon>
+        New Form Set Definition
+      </button>
+    </mat-list-item>
+
+    <mat-list-item
+      matTooltip="Adds a new form definition"
+      matTooltipPosition ="right"
+      matTooltipClass="tool-tip">
+      <button mat-icon-button (click)="onAddNewFormDefinitionElement()">
+        <mat-icon color="primary">
+          add
+        </mat-icon>
+        Add New Definition
+      </button>
+    </mat-list-item>
+
+    <mat-list-item
+      matTooltip="Generates HTML and Typescript code definition templates to copy and use in your projects"
+      matTooltipPosition ="right"
+      matTooltipClass="tool-tip">
+      <button mat-icon-button (click)="onFormDefinitionsResetClick()">
+        <mat-icon color="primary">
+          code
+        </mat-icon>
+        Generate Code
+      </button>
+    </mat-list-item> -->
+
+  </mat-nav-list>
+
+</mat-sidenav>
 
   <div class="app-sidenav-content">
     <app-toolbar (toggleSidenav)="sidenav.toggle()"></app-toolbar>

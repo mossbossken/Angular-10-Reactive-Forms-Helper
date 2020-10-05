@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-title>
+    Reactive Form Typescript
+  </mat-card-title>
+  <mat-card-content>
+    <div style="width:100%;text-align: right;">
+      <button  mat-button style = "text-align: right;" [cdkCopyToClipboard] ="formFieldDefinitions.typescriptFormBuilderDefinition | json">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+    </div><br />
+
+    <div id="html-content">
+      {{formFieldDefinitions.typescriptFormBuilderDefinition}}
+    </div>
+  </mat-card-content>
+</mat-card>
