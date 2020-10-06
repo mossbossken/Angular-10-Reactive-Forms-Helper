@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
@@ -29,16 +29,15 @@ export class NewFormElementDefinitionComponent implements OnInit {
 
   ngOnInit(): void {
     this.newFormDefinition = this.fb.group({
-      definitionElementType: ['element type'],
-      definitionFormControlName: ['form control name'],
-      definitionPlaceholderName: ['placeholder name'],
+      definitionElementType: ['', Validators.required],
+      definitionFormControlName: ['', Validators.required],
+      definitionPlaceholderName: ['', Validators.required],
+      definitionCssClassName: [''],
     });
 
 
 
   }
-
-
 
   publishFormSetDefinitionClick(): void{
     //console.log('Form Def:' + );
@@ -47,12 +46,21 @@ export class NewFormElementDefinitionComponent implements OnInit {
 
   }
 
-//   addFormFieldDefinitionClick(): void{
+formSubmit(form): void {
+  if (this.newFormDefinition.valid) {
 
-//     const formField = this.createFormSetDefnition();
-//     this.formPublishService.publishFormFieldDefinition(formField);
+    const newFormFieldDefinition = new FormField();
 
-//  }
+    newFormFieldDefinition.formControlName = this.newFormDefinition.value.definitionFormControlName;
+    newFormFieldDefinition.formElementType = this.newFormDefinition.value.definitionElementType;
+    newFormFieldDefinition.formCssClassName = this.newFormDefinition.value.definitionCssClassName;
+    newFormFieldDefinition.formPlaceHolderName = this.newFormDefinition.value.definitionPlaceholderName;
+    newFormFieldDefinition.formFieldValidators.push(ValidatorType.Required);
+
+    this.dialogRef.close(newFormFieldDefinition);
+
+  }
+}
 
  onNoActionClick(): void {
   this.dialogRef.close();
@@ -69,11 +77,10 @@ export class NewFormElementDefinitionComponent implements OnInit {
 
     const formSetDef = new FormField();
 
-    formSetDef.fieldDefinitionName = 'New Definition Name';
-    formSetDef.formControlDefinition = 'LastName';
+    formSetDef.formControlName = 'LastName';
     formSetDef.formElementType = FormFieldElementType.InputText;
-    formSetDef.formFieldClassName = 'ClassName';
-    formSetDef.formPlaceHolderDefinition = '';
+    formSetDef.formCssClassName = 'ClassName';
+    formSetDef.formPlaceHolderName = '';
     formSetDef.formFieldValidators.push(ValidatorType.Required);
 
     return formSetDef;

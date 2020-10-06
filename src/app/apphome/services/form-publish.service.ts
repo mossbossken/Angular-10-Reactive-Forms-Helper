@@ -36,11 +36,10 @@ export class FormPublishService {
 
     const formSetDef = new FormField();
 
-    formSetDef.fieldDefinitionName = '';
-    formSetDef.formControlDefinition = '';
+    formSetDef.formControlName = '';
     formSetDef.formElementType = null;
-    formSetDef.formFieldClassName = null;
-    formSetDef.formPlaceHolderDefinition = '';
+    formSetDef.formCssClassName = null;
+    formSetDef.formPlaceHolderName = '';
     //formSetDef.formFieldValidators.push(ValidatorType.Required);
 
     return formSetDef;

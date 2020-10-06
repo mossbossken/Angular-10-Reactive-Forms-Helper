@@ -2,6 +2,7 @@
 import { Component, Input, OnInit, SimpleChange } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 import { FormField} from '../../../models/form-field';
 import { ValidatorType } from '../../../helpers/validator-type.enum';
@@ -20,65 +21,27 @@ export class DefineComponent implements OnInit {
 
   formDefinitions: FormGroup;
   formDefinitionsInvalid: boolean = false;
-  formField: FormField;
+  formFieldDefinitions: FormField[] = [];
   numberOfDefinitions: number = 0;
+  private newFormGroup: FormGroup;
+
   public formFieldElementType = FormFieldElementType;
 
   constructor(
-      private fb: FormBuilder,
-      private formPublishService: FormPublishService,
-      private matDialog: MatDialog
-  ) {}
+    private matDialog: MatDialog,
+  ){}
 
 
+  ngOnInit(): void {}
 
-
-  ngOnInit(): void {
-    try
-    {
-    this.formDefinitions = this.fb.group({
-      nameOfThisFormSet: [''],
-      definitions: this.fb.array([
-        this.addDefinitionFormGroup()
-      ])
-    });
-
-    this.publishFormSetDefinition();
-
-    this.formPublishService.getFormReset().subscribe((value) =>{
-      console.log(value);
-      this.onFormReset(value);
-    });
-
-    this.formPublishService.getFormFieldDefinition().subscribe((value) =>{
-      var newFormGroup = this.fb.group({
-        definitionElementType: [''],
-        definitionPlaceholderName: [''],
-        definitionFormControlName: [''],
-      });
-
-      console.log('in ngOninit');
-
-      this.addFormFieldDefinition(newFormGroup);
-
-    });
-    }
-    catch(ex)
-    {
-      console.log('define: ' + ex);
-    }
-
+  drop(event: CdkDragDrop<string[]>): void {
+    console.log(event);
+    moveItemInArray(this.formFieldDefinitions, event.previousIndex, event.currentIndex);
   }
 
 
   onFormReset(value: any): void{
 
-    this.formDefinitions = this.fb.group({
-      nameOfThisFormSet: [''],
-      definitions: this.fb.array([
-        this.addDefinitionFormGroup()
-      ])
-    });
 
 
   }
@@ -91,22 +54,30 @@ export class DefineComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.formField = result;
-      console.log(this.formField);
+      if(result != null){
+        this.formFieldDefinitions.push(result);
+      }
     });
   }
 
 
-  deleteFormDefinition(indexOfFormDefinition: number): void{
-    (this.formDefinitions.get('definitions') as FormArray).removeAt(indexOfFormDefinition);
 
+
+  deleteFormDefinitionClick(indexOfFormDefinition: number): void{
+
+    this.formFieldDefinitions.splice(indexOfFormDefinition, 1);
+
+  }
+
+  editFormSetDefinitionClick(indexOfFormDefinition: number): void{
+    alert('to be done');
   }
 
 
   publishFormSetDefinition(): void{
 
-    const formDef = this.createFormSetDefnition();
-    this.formPublishService.publishNewFormSetDefinition(formDef);
+    // const formDef = this.createFormSetDefnition(this.formDefinitions);
+    // this.formPublishService.publishNewFormSetDefinition(formDef);
 
   }
 
@@ -122,15 +93,14 @@ export class DefineComponent implements OnInit {
 
 
 
-  createFormSetDefnition(): FormField{
+  createFormSetDefnition(formVals: FormGroup): FormField{
 
     const formSetDef = new FormField();
 
-    formSetDef.fieldDefinitionName = 'New Definition Name';
-    formSetDef.formControlDefinition = 'LastName';
-    formSetDef.formElementType = FormFieldElementType.InputText;
-    formSetDef.formFieldClassName = 'ClassName';
-    formSetDef.formPlaceHolderDefinition = '';
+    formSetDef.formControlName = formVals.value.def;
+    formSetDef.formElementType = formVals.value.definitionControlName;
+    formSetDef.formCssClassName = formVals.value.formCssClassName;
+    formSetDef.formPlaceHolderName = formVals.value.definitionPlaceholderName;
     formSetDef.formFieldValidators.push(ValidatorType.Required);
 
     return formSetDef;
@@ -145,43 +115,6 @@ export class DefineComponent implements OnInit {
 
 
 
-  addDefinitionFormGroup(): FormGroup{
-
-    return this.fb.group({
-      definitionElementType: [''],
-      definitionPlaceholderName: [''],
-      definitionFormControlName: [''],
-    });
-
-  }
-
-
-
-
-
-  addFormFieldDefinition(newFormGroup: FormGroup): void{
-
-    console.log('addFormFieldDefinition');
-    (this.formDefinitions.get('definitions') as FormArray).push(newFormGroup);
-
-  }
-
-
-  onElementTypeChanged(): void{
-
-  }
-
 }
-
-// export enum FormFieldElementType{
-//   InputText = 'Input Text',
-//   InputPassword = 'Input Password',
-//   InputEmail = 'Input Email',
-//   SelectOption = 'Select Option',
-//   Checkbox = 'Check Box',
-//   RadioButtonGroup = 'Radio Button Group',
-//   textArea = 'Text Area'
-// }
-
 
 
